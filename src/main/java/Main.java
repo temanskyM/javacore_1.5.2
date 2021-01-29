@@ -34,30 +34,17 @@ public class Main {
             NodeList employeeNodes = root.getChildNodes();
             for (int i = 0; i < employeeNodes.getLength(); i++) {
                 if (employeeNodes.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                    Employee newEmployee = new Employee();
-                    //Получаем ноды, содержащиеся в Employee
-                    NodeList employeeNode = (NodeList) employeeNodes.item(i);
+                    Element elementEmployee = (Element) employeeNodes.item(i);
+                    elementEmployee.getElementsByTagName("firstName").item(0).getTextContent();
 
-                    //Пробегаем через два
-                    for (int j = 1; j < employeeNode.getLength(); j = j + 2) {
-                        switch (employeeNode.item(j).getNodeName()) {
-                            case "id":
-                                newEmployee.setId(Long.parseLong(employeeNode.item(j).getChildNodes().item(0).getNodeValue()));
-                                break;
-                            case "firstName":
-                                newEmployee.setFirstName(employeeNode.item(j).getChildNodes().item(0).getNodeValue());
-                                break;
-                            case "lastName":
-                                newEmployee.setLastName(employeeNode.item(j).getChildNodes().item(0).getNodeValue());
-                                break;
-                            case "country":
-                                newEmployee.setCountry(employeeNode.item(j).getChildNodes().item(0).getNodeValue());
-                                break;
-                            case "age":
-                                newEmployee.setAge(Integer.parseInt(employeeNode.item(j).getChildNodes().item(0).getNodeValue()));
-                                break;
-                        }
-                    }
+                    Employee newEmployee = new Employee(
+                            Long.parseLong(elementEmployee.getElementsByTagName("id").item(0).getTextContent()),
+                            elementEmployee.getElementsByTagName("firstName").item(0).getTextContent(),
+                            elementEmployee.getElementsByTagName("lastName").item(0).getTextContent(),
+                            elementEmployee.getElementsByTagName("country").item(0).getTextContent(),
+                            Integer.parseInt(elementEmployee.getElementsByTagName("age").item(0).getTextContent())
+                    );
+
                     System.out.println(newEmployee);
                     employeeList.add(newEmployee);
                 }
